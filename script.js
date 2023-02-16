@@ -2,108 +2,91 @@ const numbers = document.querySelectorAll('div #numbers > button');
 const symbols = document.querySelectorAll('div #symbols > button');
 const clearBtn = document.querySelector('#clear');
 const display = document.querySelector('#display');
-let a = 0;
-let b = 0;
-let sum = 0;
-let clickCount = 0;
+let a = null;
+let b = null;
+let operator = null;
+let sum = null;
+let lastClick = null; 
 
-// Nothing gets returned from addEventListeners
+// TO DO:
+// 1 Add . 
+// 2 Fix bugs?
+// 3 More functionality?
+// 4 Keyboard eventListeners
+// 4 Style
 numbers.forEach(button => {
-    button.addEventListener('click', updateDisplay);
+    button.addEventListener('click', clearResult);
+});
+
+numbers.forEach(button => {
+    button.addEventListener('click', getNumberClick);
 });
 
 symbols.forEach(button => {
-    button.addEventListener('click', controller);
+    button.addEventListener('click', calculate);
 });
 
 clearBtn.addEventListener('click', clearEverything);
 
-function saveFirstNumber() {
-    a = parseInt(display.value)
-    return a;
-}
-
-function saveSecondNumber() {
-    b = parseInt(display.value);
-    return b;
-}
-
-function controller(e) {
-    // count clicks on symbols
-    clickCount = e.currentTarget;
-    clickCount.clicks = (clickCount.clicks || 0) +1;
-    clickCount = clickCount.clicks;
-
-    if (clickCount === 1 && !(e.target.value === '=')) {
-        saveFirstNumber()
-        saveOperator(e)
-        clearDisplay()
-        console.log('a: ' + a)
-        console.log('b: ' + b)
-        console.log('operator: ' + operator)
-        console.log('sum: ' + sum)
-    } else if (clickCount === 2 && !(e.target.value === '=')) {
-        saveSecondNumber()
-        saveOperator(e)
+function calculate(e) {
+    if (!(e.target.value === '=')) {
+        updateNumber()
         operate(a, operator, b)
-        showResult()
-        clearDisplay()
-        console.log('a: ' + a)
-        console.log('b: ' + b)
-        console.log('operator: ' + operator)
-        console.log('sum: ' + sum)
-    } else if (!(e.target.value === '=')) {
-        updateFirstNumber()
-        saveSecondNumber()
         saveOperator(e)
-        operate(a, operator, b)
         showResult()
-        clearDisplay()
-        console.log('a: ' + a)
-        console.log('b: ' + b)
-        console.log('operator: ' + operator)
-        console.log('sum: ' + sum)
     } else if (e.target.value === '=') {
-        updateFirstNumber()
-        saveSecondNumber()
+        updateNumber()
         operate(a, operator, b)
         showResult()
-        clearDisplay()
-        console.log('a: ' + a)
-        console.log('b: ' + b)
-        console.log('operator: ' + operator)
-        console.log('sum: ' + sum)
     }
-}
+};
 
-function updateFirstNumber() {
-    a = sum;
-    return a;
-}
+function clearResult() {
+    if (!(typeof lastClick === 'number')) {
+        clearDisplay()
+    }
+};
+
+function getNumberClick(e) {
+    lastClick = parseInt(e.target.value);
+    updateDisplay(e)
+};
+
+function updateNumber() {
+    if (a === null) {
+        a = parseInt(display.value);
+    } else if (!(a === null) && b === null) {
+        b = parseInt(display.value);
+    } else if (!(a === null) && !(b === null)) {
+        a = sum;
+        b = parseInt(display.value);
+    }
+    clearDisplay()
+};
 
 function clearEverything() {
     clearDisplay()
-    a = 0;
-    b = 0;
-    sum = 0;
-}
+    a = null;
+    b = null;
+    sum = null;
+    operator = null;
+};
 
 function clearDisplay() {
-    display.value = '';
-} 
+    display.value = null;
+};
 
 function updateDisplay(e) {
-    display.value += e.target.value;
-    return display.value; 
+    display.value += e.target.value;   
 };
 
 function showResult() {
-    clearDisplay();
     display.value = sum;
     console.log(sum)
-}
+};
 
 function saveOperator(e) {
+    lastClick = e.target.value;
     operator = e.target.value;
     return operator;
 };
@@ -125,13 +108,14 @@ function divide(a, b) {
         return a / b; 
     } else {
         clearEverything()
-        display.value = "???"
+        display.value = "ERROR! Press: AC."
         return display.value;
     }
-    
 };
 
 function operate(a, operator, b) {
+    
+
     if (operator === '+') {
         sum = add(a, b);
     } else if (operator === '-') {
