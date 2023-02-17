@@ -11,9 +11,15 @@
 <body>
     <h1>Calculator</h1>
 
+    <div id="display-container">
+        <div id="display">
+            <input type="text" id="display" value="">
+        </div>
+    </div>
+
     <div id="buttons">
-        <input type="text" id="display" value="">
         <button id="clear">AC</button>
+        <button id="backspace">DELETE</button>
         <div id="numbers">
             <button value="1">1</button>
             <button value="2">2</button>
@@ -27,13 +33,12 @@
             <button value="0">0</button>
             <button value=".">.</button>
         </div>
+        
         <div id="symbols">
             <button value="+" id="add">+</button>
             <button value="-" id="subtract">-</button>
             <button value="*" id="multiply">x</button>
             <button value="/" id="divide">/</button>
-            <button value="%" id="percentage">%</button>
-            <button value="+/-" id="plusMinus">+/-</button>
             <button value="=" id="equals">=</button>
         </div>
     </div>

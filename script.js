@@ -1,6 +1,7 @@
 const numbers = document.querySelectorAll('div #numbers > button');
 const symbols = document.querySelectorAll('div #symbols > button');
 const clearBtn = document.querySelector('#clear');
+const backspaceBtn = document.querySelector('#backspace');
 const display = document.querySelector('#display');
 let a = null;
 let b = null;
@@ -9,16 +10,12 @@ let sum = null;
 let lastClick = null; 
 
 // TO DO:
-// 1 More functionality? (+/- and %)
-// 2 Round long decimals
-// 3 Keyboard eventListeners
-// 4 Style
+// 2 Fix double screen (cheat OK only if necessary)
+// 3 Keyboard eventListeners (cheat OK only if necessary)
+// 4 Style (cheat OK only if necessary)
 
 numbers.forEach(button => {
     button.addEventListener('click', clearResult);
-});
-
-numbers.forEach(button => {
     button.addEventListener('click', getNumberClick);
 });
 
@@ -26,7 +23,12 @@ symbols.forEach(button => {
     button.addEventListener('click', calculate);
 });
 
+backspaceBtn.addEventListener('click', backspace);
 clearBtn.addEventListener('click', clearEverything);
+
+function backspace() {
+    display.value = display.value.slice(0, -1);
+};
 
 function calculate(e) {
     updateNumber()
@@ -70,18 +72,31 @@ function clearDisplay() {
     display.value = null;
 };
 
+function backspace() {
+    display.value = display.value.slice(0, -1);
+};
+
 function updateDisplay(e) {
     display.value += e.target.value;   
 };
 
 function showResult() {
-    display.value = sum;
-    console.log(sum)
+    if (!Number.isInteger(sum) && !(sum === null)) {
+        display.value = sum.toFixed(2);
+    } else if (Number.isInteger(sum)) {
+        display.value = sum;
+    }
+    console.log(typeof sum + ': ' + sum)
 };
 
 function saveOperator(e) {
-    lastClick = e.target.value;
-    operator = e.target.value;
+    if (lastClick === '+' || lastClick === '-' || lastClick === '*' || lastClick === '/') {
+        clearEverything();
+        display.value = "ERROR! Press: AC."
+    } else {
+        lastClick = e.target.value;
+        operator = e.target.value;
+    }
 };
 
 function add(a, b) {
@@ -115,7 +130,5 @@ function operate(a, operator, b) {
         sum = multiply(a, b);
     } else if (operator === '/') {
         sum = divide(a, b);
-    }
-    
-    return sum;
+    }  
 };
