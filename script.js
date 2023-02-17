@@ -9,11 +9,11 @@ let sum = null;
 let lastClick = null; 
 
 // TO DO:
-// 1 Add . 
-// 2 Fix bugs?
-// 3 More functionality?
-// 4 Keyboard eventListeners
+// 1 More functionality? (+/- and %)
+// 2 Round long decimals
+// 3 Keyboard eventListeners
 // 4 Style
+
 numbers.forEach(button => {
     button.addEventListener('click', clearResult);
 });
@@ -29,16 +29,10 @@ symbols.forEach(button => {
 clearBtn.addEventListener('click', clearEverything);
 
 function calculate(e) {
-    if (!(e.target.value === '=')) {
-        updateNumber()
-        operate(a, operator, b)
-        saveOperator(e)
-        showResult()
-    } else if (e.target.value === '=') {
-        updateNumber()
-        operate(a, operator, b)
-        showResult()
-    }
+    updateNumber()
+    operate(a, operator, b)
+    saveOperator(e)
+    showResult() 
 };
 
 function clearResult() {
@@ -54,12 +48,12 @@ function getNumberClick(e) {
 
 function updateNumber() {
     if (a === null) {
-        a = parseInt(display.value);
+        a = parseFloat(display.value);
     } else if (!(a === null) && b === null) {
-        b = parseInt(display.value);
+        b = parseFloat(display.value);
     } else if (!(a === null) && !(b === null)) {
         a = sum;
-        b = parseInt(display.value);
+        b = parseFloat(display.value);
     }
     clearDisplay()
 };
@@ -88,7 +82,6 @@ function showResult() {
 function saveOperator(e) {
     lastClick = e.target.value;
     operator = e.target.value;
-    return operator;
 };
 
 function add(a, b) {
@@ -114,8 +107,6 @@ function divide(a, b) {
 };
 
 function operate(a, operator, b) {
-    
-
     if (operator === '+') {
         sum = add(a, b);
     } else if (operator === '-') {
