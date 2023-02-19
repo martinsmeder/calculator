@@ -33,11 +33,20 @@ function backspace() {
 };
 
 function calculate(e) {
+    console.log(typeof lastClick + lastClick)
+    // if (lastClick !== null && lastClick.id !== 'equals') {
+    //     // Last click was an operator, update operator and return
+    //     operator = e.target.value;
+    //     updateCalcDisplay();
+    //     lastClick = e.target.value;
+    //     return;
+    // }
     updateNumber()
     operate(a, operator, b)
     saveOperator(e)
     showResult() 
     updateCalcDisplay()
+    // lastClick = e.target.value;
 };
 
 function clearResult() {
@@ -52,7 +61,6 @@ function getNumberClick(e) {
 };
 
 function updateNumber() {
-    console.log(typeof a + ': ' + a)
     if (a === null) {
         a = parseFloat(display.value);
     } else if (!(a === null) && b === null) {
@@ -90,20 +98,16 @@ function updateDisplay(e) {
 };
 
 function updateCalcDisplay() {
-    console.log(typeof a + ': ' + a)
-    if (!(a === null) && b === null) {
+    if (!Number.isNaN(a) && b === null) {
         calcDisplay.value = `${a} ${operator}`;
-    } else if (!(a === null) && !(b === null)){
+    } else if (!Number.isNaN(a) && b !== null) {
         calcDisplay.value = `${sum} ${operator}`;
-    } 
-    // doesn't work
-    // else if (a === null) {
-    //     calcDisplay.value = `${operator}`;
-    // }
+    } else if (Number.isNaN(a)) {
+        calcDisplay.value = `${operator}`;
+    }
 }; 
 
 function showResult() {
-    console.log(typeof a + ': ' + a)
     if (!Number.isInteger(sum) && !(sum === null)) {
         display.value = sum.toFixed(2);
     } else if (Number.isInteger(sum)) {
@@ -112,7 +116,6 @@ function showResult() {
 };
 
 function saveOperator(e) {
-    console.log(typeof a + ': ' + a)
     if (lastClick === '+' || lastClick === '-' || lastClick === '*' || lastClick === '/') {
         clearEverything();
         calcDisplay.value = null;
@@ -146,8 +149,7 @@ function divide(a, b) {
 };
 
 function operate(a, operator, b) {
-    console.log(typeof a + ': ' + a)
-    if (operator === '+' && typeof lastClick === 'number' ) {
+    if (operator === '+') {
         sum = add(a, b);
     } else if (operator === '-') {
         sum = subtract(a, b);
