@@ -102,8 +102,10 @@ function updateCalcDisplay() {
 
     if (!Number.isNaN(a) && b === null) {
         calcDisplay.value = `${a} ${operator}`;
-    } else if (!Number.isNaN(a) && b !== null) {
+    } else if (!Number.isNaN(a) && b !== null && Number.isInteger(sum)) {
         calcDisplay.value = `${sum} ${operator}`;
+    } else if (!Number.isNaN(a) && b !== null && !Number.isInteger(sum)) {
+        calcDisplay.value = `${sum.toFixed(2)} ${operator}`;
     } else if (Number.isNaN(a)) {
         calcDisplay.value = `${operator}`;
     }
