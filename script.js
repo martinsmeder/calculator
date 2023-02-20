@@ -33,20 +33,18 @@ function backspace() {
 };
 
 function calculate(e) {
-    console.log(typeof lastClick + lastClick)
-    // if (lastClick !== null && lastClick.id !== 'equals') {
-    //     // Last click was an operator, update operator and return
-    //     operator = e.target.value;
-    //     updateCalcDisplay();
-    //     lastClick = e.target.value;
-    //     return;
-    // }
-    updateNumber()
-    operate(a, operator, b)
-    saveOperator(e)
-    showResult() 
-    updateCalcDisplay()
-    // lastClick = e.target.value;
+    if (lastClick === '+' || lastClick === '-' || lastClick === '*' || lastClick === '/') {
+        updateCalcDisplay;
+        lastClick = e.target.value;
+        operator = e.target.value;
+        saveOperator(e)
+    } else {
+        updateNumber()
+        operate(a, operator, b)
+        saveOperator(e)
+        showResult() 
+        updateCalcDisplay()
+    } 
 };
 
 function clearResult() {
@@ -98,6 +96,10 @@ function updateDisplay(e) {
 };
 
 function updateCalcDisplay() {
+    if (a === null) {
+        a = parseFloat(a)
+    }
+
     if (!Number.isNaN(a) && b === null) {
         calcDisplay.value = `${a} ${operator}`;
     } else if (!Number.isNaN(a) && b !== null) {
@@ -117,9 +119,9 @@ function showResult() {
 
 function saveOperator(e) {
     if (lastClick === '+' || lastClick === '-' || lastClick === '*' || lastClick === '/') {
-        clearEverything();
-        calcDisplay.value = null;
-        display.value = "ERROR! Press: AC."
+        updateCalcDisplay()
+        lastClick = e.target.value;
+        operator = e.target.value;
     } else {
         lastClick = e.target.value;
         operator = e.target.value;
@@ -149,6 +151,10 @@ function divide(a, b) {
 };
 
 function operate(a, operator, b) {
+    if (a === null || Number.isNaN(a)) {
+        return;
+    }
+
     if (operator === '+') {
         sum = add(a, b);
     } else if (operator === '-') {
