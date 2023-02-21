@@ -1,5 +1,6 @@
 const numbers = document.querySelectorAll('div #numbers > button');
 const symbols = document.querySelectorAll('div #symbols > button');
+const plusMinus = document.querySelector('#plusMinus');
 const clearBtn = document.querySelector('#clear');
 const backspaceBtn = document.querySelector('#backspace');
 const calcDisplay = document.querySelector('#calcDisplay');
@@ -12,9 +13,9 @@ let sum = null;
 let lastClick = null; 
 
 // TO DO:
-// 1 Bugs
-// 2 Keyboard eventListeners 
-// 3 Style 
+// 1 Keyboard eventListeners 
+// 2 Style 
+// https://www.section.io/engineering-education/building-a-calculator-a-javascript-project-for-beginners/
 
 numbers.forEach(button => {
     button.addEventListener('click', clearResult);
@@ -25,6 +26,7 @@ symbols.forEach(button => {
     button.addEventListener('click', calculate);
 });
 
+plusMinus.addEventListener('click', convertNumber)
 backspaceBtn.addEventListener('click', backspace);
 clearBtn.addEventListener('click', clearEverything);
 
@@ -92,8 +94,20 @@ function backspace() {
 };
 
 function updateDisplay(e) {
-    display.value += e.target.value;   
+    display.value += e.target.value;  
+
 };
+
+function convertNumber(num) {
+    num = parseFloat(display.value);
+    if (num > 0) {
+        display.value = -num;
+    } else if (num < 0) {
+        display.value = -(num);
+    } else if (num = 0) {
+        display.value = num
+    } 
+}
 
 function updateCalcDisplay() {
     if (a === null) {
@@ -147,13 +161,15 @@ function divide(a, b) {
         return a / b; 
     } else {
         clearEverything()
-        display.value = "ERROR! Press: AC."
-        return display.value;
+        display.value = "Can't divide by 0! Click: AC"
+        return;
     }
 };
 
 function operate(a, operator, b) {
     if (a === null || Number.isNaN(a)) {
+        clearEverything()
+        display.value = "Start with a number! Click: AC"
         return;
     }
 
