@@ -85,10 +85,6 @@ plusMinus.addEventListener('click', convertNumber)
 backspaceBtn.addEventListener('click', backspace);
 clearBtn.addEventListener('click', clearEverything);
 
-function backspace() {
-    display.value = display.value.slice(0, -1);
-};
-
 // functions
 function calculate(e) {
     if (lastClick === '+' || lastClick === '-' || lastClick === '*' || lastClick === '/') {
@@ -145,6 +141,11 @@ function divide(a, b) {
     }
 };
 
+function getNumberClick(e) {
+    lastClick = parseInt(e.target.value);
+    updateDisplay(e)
+};
+
 function saveOperator(e) {
     if (lastClick === '+' || lastClick === '-' || lastClick === '*' || lastClick === '/') {
         updateCalcDisplay()
@@ -156,17 +157,15 @@ function saveOperator(e) {
     }
 };
 
-function showResult() {
-    if (!Number.isInteger(sum) && !(sum === null)) {
-        display.value = sum.toFixed(2);
-    } else if (Number.isInteger(sum)) {
-        display.value = sum;
-    }
-};
-
-function getNumberClick(e) {
-    lastClick = parseInt(e.target.value);
-    updateDisplay(e)
+function convertNumber(num) {
+    num = parseFloat(display.value);
+    if (num > 0) {
+        display.value = -num;
+    } else if (num < 0) {
+        display.value = -(num);
+    } else if (num = 0) {
+        display.value = num
+    } 
 };
 
 function updateNumber() {
@@ -179,6 +178,14 @@ function updateNumber() {
         b = parseFloat(display.value);
     }
     clearDisplay()
+};
+
+function showResult() {
+    if (!Number.isInteger(sum) && !(sum === null)) {
+        display.value = sum.toFixed(2);
+    } else if (Number.isInteger(sum)) {
+        display.value = sum;
+    }
 };
 
 function updateDisplay(e) {
@@ -228,13 +235,3 @@ function clearEverything() {
     sum = null;
     operator = null;
 };
-
-
-
-
-
-
-
-
-
-
