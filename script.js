@@ -14,7 +14,7 @@ let lastClick = null;
 
 // TO DO:
 // 1. Style 
-// https://www.section.io/engineering-education/building-a-calculator-a-javascript-project-for-beginners/
+// https://dev.to/hussein_ouda/currency-converter-calculator-4goe
 
 // handle click events
 numbers.forEach(button => {
