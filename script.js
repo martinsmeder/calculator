@@ -12,10 +12,6 @@ let operator = null;
 let sum = null;
 let lastClick = null; 
 
-// TO DO:
-// 1. Style 
-// https://dev.to/hussein_ouda/currency-converter-calculator-4goe
-
 // handle click events
 numbers.forEach(button => {
     button.addEventListener('click', clearResult);
@@ -29,10 +25,6 @@ symbols.forEach(button => {
 plusMinus.addEventListener('click', convertNumber)
 backspaceBtn.addEventListener('click', backspace);
 clearBtn.addEventListener('click', clearEverything);
-
-function backspace() {
-    display.value = display.value.slice(0, -1);
-};
 
 // handle keyboard events
 document.addEventListener("keydown", (e) => {
@@ -71,20 +63,6 @@ document.addEventListener("keydown", (e) => {
     console.log(e)
 });
 
-// handle click events
-numbers.forEach(button => {
-    button.addEventListener('click', clearResult);
-    button.addEventListener('click', getNumberClick);
-});
-
-symbols.forEach(button => {
-    button.addEventListener('click', calculate);
-});
-
-plusMinus.addEventListener('click', convertNumber)
-backspaceBtn.addEventListener('click', backspace);
-clearBtn.addEventListener('click', clearEverything);
-
 // functions
 function calculate(e) {
     if (lastClick === '+' || lastClick === '-' || lastClick === '*' || lastClick === '/') {
@@ -104,7 +82,7 @@ function calculate(e) {
 function operate(a, operator, b) {
     if (a === null || Number.isNaN(a)) {
         clearEverything()
-        display.value = "Start with a number! Click: AC"
+        display.value = "ERROR! Press: AC"
         return;
     }
 
@@ -136,7 +114,8 @@ function divide(a, b) {
         return a / b; 
     } else {
         clearEverything()
-        display.value = "Can't divide by 0! Click: AC"
+        calcDisplay.value = "Can't divide by 0!"
+        display.value = "Click: AC"
         return;
     }
 };
