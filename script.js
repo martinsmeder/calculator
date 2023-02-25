@@ -28,28 +28,15 @@ clearBtn.addEventListener('click', clearEverything);
 
 // handle keyboard events
 document.addEventListener("keydown", (e) => {
-    if (e.key >= 0 && e.key <= 9) {
+    if (e.key === "." || (e.key >= 0 && e.key <= 9)) {
       let button = document.querySelector(`div #numbers > button[value="${e.key}"]`);
       if (button) {
         clearResult();
         getNumberClick({target: button});
       }
     }
-    else if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/") {
-      let button = document.querySelector(`div #symbols > button[value="${e.key}"]`);
-      if (button) {
-        calculate({target: button});
-      }
-    }
-    else if (e.key === ".") {
-      let button = document.querySelector(`div #numbers > button[value="."]`);
-      if (button) {
-        clearResult();
-        getNumberClick({target: button});
-      }
-    }
-    else if (e.key === "=" || e.key === "Enter") {
-      let button = document.querySelector(`div #symbols > button[value="="]`);
+    else if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/" || e.key === "=" || e.key === "Enter") {
+      let button = document.querySelector(`div #symbols > button[value="${e.key}"], div #symbols > button[value="="]`);
       if (button) {
         calculate({target: button});
       }
@@ -60,7 +47,6 @@ document.addEventListener("keydown", (e) => {
     else if (e.key === "Escape") {
       clearEverything();
     }
-    console.log(e)
 });
 
 // functions
@@ -82,41 +68,29 @@ function calculate(e) {
 function operate(a, operator, b) {
     if (a === null || Number.isNaN(a)) {
         clearEverything()
-        display.value = "ERROR! Press: AC"
+        display.value = "ERROR! --> AC"
         return;
     }
 
-    if (operator === '+') {
-        sum = add(a, b);
-    } else if (operator === '-') {
-        sum = subtract(a, b);
-    } else if (operator === '*') {
-        sum = multiply(a, b);
-    } else if (operator === '/') {
-        sum = divide(a, b);
-    }  
-};
-
-function add(a, b) {
-    return a + b;
-}; 
-
-function subtract(a, b) {
-    return a - b;
-};
-
-function multiply(a, b) {
-    return a * b; 
-};
-
-function divide(a, b) {
-    if (!(b === 0)) {
-        return a / b; 
-    } else {
-        clearEverything()
-        calcDisplay.value = "Can't divide by 0!"
-        display.value = "Click: AC"
-        return;
+    switch (operator) {
+        case '+':
+            sum = a + b;
+            break;
+        case '-':
+            sum = a - b;
+            break;
+        case '*':
+            sum = a * b;
+            break;
+        case '/':
+            if (!(b === 0)) {
+                sum = a / b; 
+                break;
+            } else {
+                clearEverything()
+                display.value = "Can't divide by 0! --> AC"
+                break;
+            }
     }
 };
 
@@ -142,8 +116,6 @@ function convertNumber(num) {
         display.value = -num;
     } else if (num < 0) {
         display.value = -(num);
-    } else if (num = 0) {
-        display.value = num
     } 
 };
 
