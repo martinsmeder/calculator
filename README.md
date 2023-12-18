@@ -4,10 +4,3 @@
 Live demo: https://martinsmeder.github.io/calculator/
 
 A basic browser based calculator, in space!
-
-Some things I've learned:
-* How to use switch statements
-* How to handle keyboard events
-* How to use display values in calculations and to display the results
-* How to check for and manipulate different data types
-* How to work with gradient colors
